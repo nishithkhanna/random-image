@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         val lastSeed = prefs.getString("seed", "")
         if (!lastSeed.isNullOrEmpty()) {
             loadImage(lastSeed)
+        } else {
+            binding.randomImage.setImageDrawable(getDrawable(R.drawable.placeholder))
         }
         binding.newImageButton.setOnClickListener { loadImage() }
 
