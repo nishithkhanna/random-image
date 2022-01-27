@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 ): Boolean {
                     val error = e?.rootCauses?.firstOrNull()
                     if(error is HttpException) {
-                        Toast.makeText(this@MainActivity, "No Internet Connection", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, getString(R.string.no_internet), Toast.LENGTH_LONG).show()
                     }
                     return false
                 }
