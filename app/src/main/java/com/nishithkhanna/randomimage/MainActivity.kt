@@ -8,36 +8,34 @@ import com.bumptech.glide.request.target.Target
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.HttpException
+import com.nishithkhanna.randomimage.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var prefs: SharedPreferences
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         prefs = getPreferences(MODE_PRIVATE)
 
         val lastSeed = prefs.getString("seed", "")
-        if(!lastSeed.isNullOrEmpty()) {
+        if (!lastSeed.isNullOrEmpty()) {
             loadImage(lastSeed)
         }
+        binding.newImageButton.setOnClickListener { loadImage() }
 
 
-
-        val button = findViewById<Button>(R.id.new_image_button)
-        button.setOnClickListener { loadImage() }
     }
 
-    private fun loadImage(seed : String = randomSeed()) {
-        val image = findViewById<ImageView>(R.id.random_image)
-        Glide.with(this)
+    private fun loadImage(seed: String = randomSeed()) {
+        Glide.with(binding.root)
             .load("https://picsum.photos/seed/$seed/500")
             .timeout(10000)
             .listener(object : RequestListener<Drawable> {
@@ -48,8 +46,12 @@ class MainActivity : AppCompatActivity() {
                     isFirstResource: Boolean
                 ): Boolean {
                     val error = e?.rootCauses?.firstOrNull()
-                    if(error is HttpException) {
-                        Toast.makeText(this@MainActivity, getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+                    if (error is HttpException) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(R.string.no_internet),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     return false
                 }
@@ -66,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             })
-            .into(image)
+            .into(binding.randomImage)
     }
 
     private fun randomSeed(): String {
