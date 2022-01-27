@@ -8,10 +8,10 @@ import com.bumptech.glide.request.target.Target
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.HttpException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.snackbar.Snackbar
 import com.nishithkhanna.randomimage.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -52,11 +52,7 @@ class MainActivity : AppCompatActivity() {
                 ): Boolean {
                     val error = e?.rootCauses?.firstOrNull()
                     if (error is HttpException) {
-                        Toast.makeText(
-                            this@MainActivity,
-                            getString(R.string.no_internet),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Snackbar.make(binding.root, getString(R.string.no_internet), Snackbar.LENGTH_LONG).show()
                     }
                     return false
                 }
