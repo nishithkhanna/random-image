@@ -35,9 +35,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadImage(seed: String = randomSeed()) {
+        val lastSeed = prefs.getString("seed", "")
         Glide.with(binding.root)
             .load("https://picsum.photos/seed/$seed/500")
             .timeout(10000)
+            .error("https://picsum.photos/seed/$lastSeed/500")
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
