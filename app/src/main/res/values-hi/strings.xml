@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="new_image_button">नया चित्र</string>
+    <string name="no_internet">कोई इंटरनेट कनेक्शन नहीं</string>
+</resources>
