@@ -8,6 +8,8 @@ import com.bumptech.glide.request.target.Target
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.HttpException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var prefs: SharedPreferences
     private lateinit var binding: ActivityMainBinding
+    private lateinit var circularProgress: CircularProgressDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +29,19 @@ class MainActivity : AppCompatActivity() {
 
         prefs = getPreferences(MODE_PRIVATE)
 
+        circularProgress = CircularProgressDrawable(this)
+        circularProgress.strokeWidth = 5f
+        circularProgress.centerRadius = 100f
+        circularProgress.setColorSchemeColors(ContextCompat.getColor(this, android.R.color.holo_blue_dark))
+        circularProgress.start()
+
         val lastSeed = prefs.getString("seed", "")
         if (!lastSeed.isNullOrEmpty()) {
             loadImage(lastSeed)
         }
         binding.newImageButton.setOnClickListener { loadImage() }
+
+
 
 
     }
@@ -43,6 +54,7 @@ class MainActivity : AppCompatActivity() {
             .centerCrop()
             .transform(RoundedCorners(20))
             .error("https://picsum.photos/seed/$lastSeed/500")
+            .placeholder(circularProgress)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
