@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.HttpException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.nishithkhanna.randomimage.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         Glide.with(binding.root)
             .load("https://picsum.photos/seed/$seed/500")
             .timeout(10000)
+            .centerCrop()
+            .transform(RoundedCorners(20))
             .error("https://picsum.photos/seed/$lastSeed/500")
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
